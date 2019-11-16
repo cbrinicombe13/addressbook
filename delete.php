@@ -1,5 +1,5 @@
 <?php
-    include("Entry.php");
+    include("entry.php");
 ?>
 
 <!DOCTYPE html>
@@ -11,43 +11,56 @@
     <title>Address Book: Delete Entry</title>
 </head>
 <body>
-    <h1>Delete Entry</h1> <hr> <br>
-
-    Delete entry by: <br>
-    <form action="" method = "post">
-        <input type="text" name = "last" placeholder = "Last Name"><br>
-        <input type="text" name = "phone" placeholder = "Phone"><br>
-        <input type="email" name = "email" placeholder = "E-Mail"><br>
-        <input type="submit">
-    </form>
-
+    <h1>Delete Entry</h1><hr><br>
+<!-- Search Form -->
+    <div>
+        Delete by name: <br><br>
+        <form action="" method = "post">
+            <input type = "text" name = "first" placeholder = "First Name"><br>
+            <input type = "text" name = "last" placeholder = "Last Name"><br>
+            <br><input type = "submit"><br>
+        </form><br>
+    </div>
+<!-- Get search parameters -->
     <?php
-
-    $last = $_POST["last"];
-    $phone = $_POST["phone"];
-    $email = $_POST["email"];
-
-    $data = file_get_contents("JSON.txt");
-    $data_arr = json_decode($data, true);
-
-    $to_delete = new Entry(NULL, $last, $phone, $email);
-
-    $index = 0;
-    foreach($data_arr as $entry) {
-        print_r($entry);
-        if($entry["last_name"] == $to_delete->last_name) {
-            unset($data_arr, $entry);
-            array_values($data_arr);
-        }
-    }
-    print_r("<br><br>");
-    foreach($data_arr as $entry) {
-        print_r($entry);
+    if(isset($_POST["first"], $_POST["last"])) {
+        $first = $_POST["first"];
+        $last = $_POST["last"];
     }
 
-
+    $json = file_get_contents("JSON.txt");
+    $json_arr = json_decode($json, true);
     ?>
+<!-- Check for matches in JSON -->
+    <?php foreach($json_arr as $item => $value) : ?>
+        <? if ($value["first_name"] == $first && $value["last_name"] == $last) : ?>
 
+        <!-- If match show details -->
+            <hr><br>Deleting this:<br><br>
+            First Name: <?php echo $value["first_name"]; ?><br>
+            Last Name: <?php echo $value["last_name"]; ?><br>
+            Phone: <?php echo $value["phone"]; ?><br>
+            E-Mail: <?php echo $value["email"]; ?><br>
+
+        <!-- Delete -->
+            <!-- Get array form of JSON=$json_arr-->
+            <!-- Get index of array to remove $item -->
+            <!-- Remove item from JSON -->
+            <!-- Re-encode JSON -->
+            <!-- Rewrite JSON to file-->
+
+            <?php 
+            unset($json_arr[$item]);
+            $json_reindex_arr = array_values($json_arr);
+            $modified_json = json_encode($json_reindex_arr);
+            file_put_contents("JSON.txt", $modified_json);
+
+            ?>
+
+        <?php endif; ?>
+    <?php endforeach; ?>
+<!-- Go Home -->
+    <hr>
     <form action = "/addressbook/index.html"><br>
         <input type = "submit" value = "Home">
     </form>

@@ -8,85 +8,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Address Book: Edit Entry</title>
+    <title>Address Book: Search/Edit Entry</title>
 </head>
 <body>
-    <h1>Edit Entry </h1><hr><br>
-
-    Edit any of the following: <br><br>
-    <form action="">
-        <input type = "text" name = "current_first" placeholder = "First Name">to
-        <input type = "text" name = "new_first" placeholder = "New First Name"><br>
-
-        <input type = "text" name = "current_last" placeholder = "Last Name">to
-        <input type = "text" name = "new_last" placeholder = "New Last Name"><br>
-
-        <input type = "text" name = "current_phone" placeholder = "Phone">to
-        <input type = "text" name = "new_phone" placeholder = "New Phone"><br>
-
-        <input type = "text" name = "current_email" placeholder = "E-Mail">to
-        <input type = "text" name = "new_email" placeholder = "New E-Mail"><br>
-
-        <input type = "submit">
-    </form>
-    
+    <h1>Search/Edit Entry </h1><hr><br>
+<!-- Search Form -->
+    <div>
+        Search below first: <br><br>
+        <form action="" method = "post">
+            <input type = "text" name = "first" placeholder = "First Name"><br>
+            <input type = "text" name = "last" placeholder = "Last Name"><br>
+            <br><input type = "submit"><br>
+        </form><br>
+    </div>
+<!-- Get search parameters -->
     <?php
+    if(isset($_POST["first"], $_POST["last"])) {
+        $first = $_POST["first"];
+        $last = $_POST["last"];
+    }
 
-    $current_first = $_POST["current_first"];
-    $current_last = $_POST["current_last"];
-    $current_phone = $_POST["current_phone"];
-    $current_email = $_POST["current_email"];
-
-    $old_entry = new Entry($current_first, $current_last, $current_phone, $current_email);
-
-    $new_first = $_POST["new_first"];
-    $new_last = $_POST["new_last"];
-    $new_phone = $_POST["new_phone"];
-    $new_email = $_POST["new_email"];
-
-    $new_entry = new Entry($new_first, $new_last, $new_phone, $new_email);
-
-    $json_arr = json_decode(file_get_contents("JSON.txt"), true);
-
-    print_r($old_entry);
-    print_r("<br><br>");
-
-    foreach($json_arr as $entry) {
-        if ($old_entry->first == $entry["first_name"] &&
-            $old_entry->last == $entry["last_name"] &&
-            $old_entry->phone == $entry["phone"] &&
-            $old_entry->email == $entry["email"]) {
-
-                print_r("Found a match");
-                print_r("<br><br>");
-                print_r($entry);
-                print_r("<br><br>");
-
-                if ($new_entry->first != NULL) {
-                    $entry["first_name"] = $new_entry->first;
-                }
-                if ($new_entry->last != NULL) {
-                    $entry["last_name"] = $new_entry->last;
-                }
-                if ($new_entry->phone != NULL) {
-                    $entry["phone"] = $new_entry->phone;
-                }
-                if ($new_entry->email != NULL) {
-                    $entry["email"] = $new_entry->email;
-                }
-
-                print_r("Edited to: ");
-                print_r("<br><br>");
-                print_r($entry);
-        }
-     }
-
+    $json = file_get_contents("JSON.txt");
+    $json_arr = json_decode($json, true);
     ?>
+<!-- Check for matches in JSON -->
+    <?php foreach($json_arr as $item) : ?>
+        <? if ($item["first_name"] == $first && $item["last_name"] == $last) : ?>
+        <!-- If match show details -->
+            <hr><br>Found this:<br><br>
+            <table>
+                <tbody>
+                    <tr>
+                        First Name: <?php echo $item["first_name"]; ?><br>
+                        Last Name: <?php echo $item["last_name"]; ?><br>
+                        Phone: <?php echo $item["phone"]; ?><br>
+                        E-Mail: <?php echo $item["email"]; ?><br>
+                    </tr>
+                </tbody>
+            </table><hr><br>
+            Make changes below: <br><br>
+            <form action="">
+                <input type="text" name = "new_first" placeholder = "New First Name"><br>
+                <input type="text" name = "new_last" placeholder = "New Last Name"><br>
+                <input type="text" name = "new_phone" placeholder = "New Phone"><br>
+                <input type="email" name = "new_email" placeholder = "New E-Mail"><br><br>
+                <input type="submit" value = "Submit Changes"><br><br>
+            </form>
+            <?php  
+                if(isset($_POST["new_first"])) {
+                    $new_first = $_POST["new_first"];
+                    echo $new_first;
+                }
+            ?>
 
-
-
-
-
+        <?php endif; ?>
+    <?php endforeach; ?>
+<!-- Go Home -->
+    <hr>
     <form action = "/addressbook/index.html"><br>
         <input type = "submit" value = "Home">
     </form>
