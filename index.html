@@ -1,26 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class = "no-js" lang="en" dir = "ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="foundation-6/css/foundation.css">
+    <link rel="stylesheet" href="foundation-6/css/app.css">
+    <link rel="stylesheet" href="custom.css">
     <title>Address Book</title>
+
 </head>
 <body>
-    <h1>Address Book</h1><hr> <br>
-    <div>
-        <form action="/addressbook/add.php">
-            <input type="submit" value="Create Entry">
-        </form>
-        <form action="/addressbook/delete.php">
-            <input type="submit" value="Delete Entry">
-        </form>
-        <form action="/addressbook/search.php">
-            <input type="submit" value="Search Book">
-        </form>
-        <form action="/addressbook/veiw.php">
-            <input type="submit" value="Veiw Book">
-        </form>
+        
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+            <h1>Address Book</h1><hr>
+        </div>
+        <div class = "cell small-4"></div>
     </div>
+
+    <div class="grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+            <a href = "add.php" class = "button radius">New Entry</a>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+             <a href = "delete.php" class = "button radius">Delete Entry</a>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+                <a href = "search.php" class = "button radius">Search/Edit</a>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+                <a href = "veiw.php" class = "button radius">View Book</a>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+    
+    <script src="foundation-6/js/vendor/jquery.js"></script>
+    <script src="foundation-6/js/vendor/what-input.js"></script>
+    <script src="foundation-6/js/vendor/foundation.js"></script>
+    <script src="foundation-6/js/app.js"></script>
 </body>
 </html>

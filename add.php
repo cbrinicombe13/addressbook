@@ -3,54 +3,112 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class = "no-js" lang="en" dir = "ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Address Book: Create Entry</title>
+    <link rel="stylesheet" href="foundation-6/css/foundation.css">
+    <link rel="stylesheet" href="foundation-6/css/app.css">
+    <link rel="stylesheet" href="custom.css">
+    <title>Address Book | Create Entry</title>
 </head>
 <body>
-    <h1>Create Entry </h1><hr><br>
+    
+    <div class="grid-x">
+        <div class="cell small-4"></div>
+        <div class="cell small-4 text-center">
+            <h1>New Entry</h1><hr>
+        </div>
+        <div class="cell small-4"></div>
+    </div>
+
+
 <!-- Get input: -->
-    Fill in details:<br><br>
-    <form action="" method = "post">
-        <input type = "text" name = "first" placeholder = "First Name"><br>
-        <input type = "text" name = "last" placeholder = "Last Name"><br>
-        <input type = "text" name = "phone" placeholder = "Phone"><br>
-        <input type = "email" name = "email" placeholder = "E-Mail"><br>
-        <input type = "submit">
-    </form>
+    <div class="grid-x">
+        <div class="cell small-4"></div>
+        <div class="cell small-4 text-center">
+            <form action="" method = "post">
+                <input type = "text" name = "first" placeholder = "First Name">
+                <input type = "text" name = "last" placeholder = "Last Name">
+                <input type = "text" name = "phone" placeholder = "Phone">
+                <input type = "email" name = "email" placeholder = "E-Mail">
+                <input type = "submit" name = "add_submit" class = "button radius">
+            </form>
+        </div>
+        <div class="cell small-4"></div>
+    </div>  
 
+<!-- Store input and add to JSON -->
     <?php
-// Store input in JSON.json:
-    $first = $_POST["first"];
-    $last = $_POST["last"];
-    $phone = $_POST["phone"];
-    $email = $_POST["email"];
+    if(isset($_POST["add_submit"])) {
+        $first = $_POST["first"];
+        $last = $_POST["last"];
+        $phone = $_POST["phone"];
+        $email = $_POST["email"];
+    }
+    ?>
 
-    if($first != NULL && $last != NULL && $phone != NULL && $email != NULL) {
-        
-        // Create new json to write as object of 'Entry':
+    <?php if(isset($first, $last, $phone, $email)) :
+
+        // Create new object:
         $new_entry = new Entry($first, $last, $phone, $email);
         $new_json = json_encode($new_entry);
 
+        // Check if already in database:
+        $json_arr = json_decode(file_get_contents("JSON.txt"), true); ?>
+        
+        <?php foreach($json_arr as $item) :
+            if($item["last_name"] == $new_entry->last_name && $item["phone"] == $new_entry->phone
+                && $item["email"] == $new_entry->email) : ?>
+
+                <!-- If in database, print error provide home button and exit() -->
+                <div class="grid-x">
+                    <div class="cell small-4"></div>
+                    <div class="cell small-4 text-center">
+                        <h5>Entry already exists.</h5>
+                    </div>
+                    <div class="cell small-4"></div>
+                </div>
+                <div class="grid-x">
+                    <div class="cell small-4"></div>
+                    <div class="cell small-4 text-center">
+                        <hr>
+                        <a href="/addressbook/index.html" class = "button radius secondary">Home</a>
+                    </div>
+                    <div class="cell small-4"></div>
+                </div>
+                <?php exit();
+            
+                // If new, continue to adding into database:
+                else :
+                    break;
+                endif;
+            endforeach;
+
         // If the first object, add '[..]' to prepare for nesting:
         clearstatcache();
-        if(filesize("JSON.txt") == 0) {
+        if(filesize("JSON.txt") == 0) :
             file_put_contents("JSON.txt", "[".$new_json."]");
-        }
-        // Else trim the '..]' and append 'new_json]':
-        else {
-            // Probably wont scale well ..
+
+        // Else trim the '..]' and append ''new_json']':
+        else :
             $json = file_get_contents("JSON.txt");
             file_put_contents("JSON.txt", rtrim($json, "]"));
             file_put_contents("JSON.txt", ",\n".$new_json."]", FILE_APPEND);
-        }
-    }
-    ?>
-    <form action = "/addressbook/index.html"><br>
-        <input type = "submit" value = "Home">
-    </form>
+        endif;
+
+    endif; ?>
+
+<!-- Go Home -->
+    <div class="grid-x">
+        <div class="cell small-4"></div>
+        <div class="cell small-4 text-center">
+            <hr>
+            <a href="/addressbook/index.html" class = "button radius secondary">Home</a>
+        </div>
+        <div class="cell small-4"></div>
+    </div>
+
 </body>
 </html>
