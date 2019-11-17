@@ -11,7 +11,7 @@
     <title>Address Book: Create Entry</title>
 </head>
 <body>
-    <h1>Create Entry </h1><hr> <br>
+    <h1>Create Entry </h1><hr><br>
 <!-- Get input: -->
     Fill in details:<br><br>
     <form action="" method = "post">
@@ -47,11 +47,8 @@
             file_put_contents("JSON.txt", rtrim($json, "]"));
             file_put_contents("JSON.txt", ",\n".$new_json."]", FILE_APPEND);
         }
-
     }
-
     ?>
-
     <form action = "/addressbook/index.html"><br>
         <input type = "submit" value = "Home">
     </form>
