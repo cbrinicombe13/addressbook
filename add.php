@@ -35,12 +35,12 @@
         $new_entry = new Entry($first, $last, $phone, $email);
         $new_json = json_encode($new_entry);
 
-        // If the first object, add a '[' to start of file:
+        // If the first object, add '[..]' to prepare for nesting:
         clearstatcache();
         if(filesize("JSON.txt") == 0) {
             file_put_contents("JSON.txt", "[".$new_json."]");
         }
-        // Else trim the ']' and append 'new_json':
+        // Else trim the '..]' and append 'new_json]':
         else {
             // Probably wont scale well ..
             $json = file_get_contents("JSON.txt");
