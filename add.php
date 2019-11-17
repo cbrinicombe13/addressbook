@@ -79,10 +79,6 @@
                     <div class="cell small-4"></div>
                 </div>
                 <?php exit();
-            
-                // If new, continue to adding into database:
-                else :
-                    break;
                 endif;
             endforeach;
 
