@@ -18,14 +18,14 @@
         <div class = "cell small-4"></div>
     </div>
 
-<!-- Get book as array of objects -->
-    <?php
-    $book = json_decode(file_get_contents("JSON.txt"));
-    ?>
-
-<!-- Show book in table -->
+    <!-- Show book in table -->
     <?php clearstatcache(); ?>
     <?php if(filesize("JSON.txt") > 0) : ?>
+
+        <!-- Get book as array of objects -->
+        <?php $book = json_decode(file_get_contents("JSON.txt"));?>
+        
+        <!-- Show in table -->
         <div class = "grid-x">
             <div class = "cell small-2"></div>
             <div class = "cell small-8 text-center">
@@ -50,6 +50,7 @@
             </div>
             <div class = "cell small-2"></div>
         </div>
+    <!-- Or show empty -->
     <?php else : ?>
         <div class = "grid-x">
             <div class = "cell small-4"></div>

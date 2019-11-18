@@ -58,29 +58,32 @@
         // Check if already in database:
         $json_arr = json_decode(file_get_contents("JSON.txt"), true); ?>
         
-        <?php foreach($json_arr as $item) :
-            if($item["last_name"] == $new_entry->last_name && $item["phone"] == $new_entry->phone
-                && $item["email"] == $new_entry->email) : ?>
+        <?php clearstatcache() ?>
+        <?php if(filesize("JSON.txt") > 0) : ?>
+            <?php foreach($json_arr as $item) :
+                if($item["last_name"] == $new_entry->last_name && $item["phone"] == $new_entry->phone
+                    && $item["email"] == $new_entry->email) : ?>
 
-                <!-- If in database, print error provide home button and exit() -->
-                <div class="grid-x">
-                    <div class="cell small-4"></div>
-                    <div class="cell small-4 text-center">
-                        <h5>Entry already exists.</h5>
+                    <!-- If duplicate, print error, provide home button and exit() -->
+                    <div class="grid-x">
+                        <div class="cell small-4"></div>
+                        <div class="cell small-4 text-center">
+                            <h5>Entry already exists.</h5>
+                        </div>
+                        <div class="cell small-4"></div>
                     </div>
-                    <div class="cell small-4"></div>
-                </div>
-                <div class="grid-x">
-                    <div class="cell small-4"></div>
-                    <div class="cell small-4 text-center">
-                        <hr>
-                        <a href="/addressbook/index.html" class = "button radius secondary">Home</a>
+                    <div class="grid-x">
+                        <div class="cell small-4"></div>
+                        <div class="cell small-4 text-center">
+                            <hr>
+                            <a href="/addressbook/index.html" class = "button radius secondary">Home</a>
+                        </div>
+                        <div class="cell small-4"></div>
                     </div>
-                    <div class="cell small-4"></div>
-                </div>
-                <?php exit();
+                    <?php exit();
                 endif;
             endforeach;
+        endif;
 
         // If the first object, add '[..]' to prepare for nesting:
         clearstatcache();

@@ -23,45 +23,67 @@
         <div class = "cell small-4"></div>
     </div>
 
-<!-- Search Form -->
-    <div class = "grid-x">
-        <div class = "cell small-4"></div>
-        <div class = "cell small-4 text-center">
-            <form action="" method = "post">
-                <input type = "text" name = "first" placeholder = "First Name">
-                <input type = "text" name = "last" placeholder = "Last Name">
-                <br><input type = "submit" class = "button radius">
-            </form>
+    <?php clearstatcache() ?>
+    <?php if(filesize("JSON.txt") > 0) : ?>
+
+        <!-- Search Form -->
+        <div class = "grid-x">
+            <div class = "cell small-4"></div>
+            <div class = "cell small-4 text-center">
+                <form action="" method = "post">
+                    <input type = "text" name = "first" placeholder = "First Name">
+                    <input type = "text" name = "last" placeholder = "Last Name">
+                    <br><input type = "submit" class = "button radius">
+                </form>
+            </div>
+            <div class = "cell small-4"></div>
         </div>
-        <div class = "cell small-4"></div>
-    </div>
 
-<!-- Get search parameters -->
-    <?php
-    if(isset($_POST["first"], $_POST["last"])) {
-        $first = $_POST["first"];
-        $last = $_POST["last"];
-    }
+        <!-- Get search parameters -->
+        <?php
+        if(isset($_POST["first"], $_POST["last"])) {
+            $first = $_POST["first"];
+            $last = $_POST["last"];
+        }
 
-    $json = file_get_contents("JSON.txt");
-    $json_arr = json_decode($json, true);
-    ?>
-<!-- Check for matches in JSON -->
-    <?php foreach($json_arr as $item => $value) : ?>
-        <? if ($value["first_name"] == $first && $value["last_name"] == $last) : ?>
+        $json = file_get_contents("JSON.txt");
+        $json_arr = json_decode($json, true);
+        ?>
 
-        <!-- Delete -->
-            <?php 
-            unset($json_arr[$item]);
-            $json_reindex_arr = array_values($json_arr);
-            $modified_json = json_encode($json_reindex_arr);
-            file_put_contents("JSON.txt", $modified_json);
-            ?>
+        <!-- Check for matches in JSON -->
+        <?php $match = false; ?>
+        <?php foreach($json_arr as $item => $value) : ?>
+            <? if ($value["first_name"] == $first && $value["last_name"] == $last) : ?>
+                
+                <!-- Found match -->
+                <?php $match = true; ?>
 
-        <?php endif; ?>
-    <?php endforeach; ?>
+                <!-- Delete -->
+                <?php 
+                unset($json_arr[$item]);
+                $json_reindex_arr = array_values($json_arr);
+                $modified_json = json_encode($json_reindex_arr);
+                file_put_contents("JSON.txt", $modified_json);
+                ?>
 
-<!-- Go Home -->
+                <!-- Clean up nesting '[]' if the last entry was just removed -->
+                <?php if(file_get_contents("JSON.txt") == "[]") {
+                    file_put_contents("JSON.txt", "");
+                }?>
+
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class = "grid-x">
+            <div class = "cell small-4"></div>
+            <div class = "cell small-4 text-center">
+                <h5>The book is empty.</h5>
+            </div>
+            <div class = "cell small-4"></div>
+        </div>
+    <?php endif; ?>
+
+    <!-- Go Home -->
     <div class="grid-x">
         <div class="cell small-4"></div>
         <div class="cell small-4 text-center">

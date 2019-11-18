@@ -34,7 +34,6 @@
     ?>
 
 <!-- Form for the changes -->
-
     <div class = "grid-x">
         <div class = "cell small-4"></div>
         <div class = "cell small-4 text-center">
