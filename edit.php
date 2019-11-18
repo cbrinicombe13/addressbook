@@ -19,10 +19,10 @@
         <div class = "cell small-4"></div>
     </div>
 
-<!--  Get '$item' and '$key' from search.php and make '$json_arr' -->
+<!--  Get '$item' and '$key' from search.php and decode JSON.json -->
 
     <?php
-    $json = file_get_contents("JSON.txt");
+    $json = file_get_contents("JSON.json");
     $json_arr = json_decode($json, true);
 
     parse_str($_GET["current_item"]);
@@ -30,7 +30,6 @@
 
     parse_str($_GET["current_key"]);
     // Can now access 'key' as 'current_key'.
-
     ?>
 
 <!-- Form for the changes -->
@@ -73,11 +72,8 @@
 
         $json_arr[$current_key] = $current_item;
 
-        file_put_contents("JSON.txt",json_encode($json_arr));
-        
-    }
-
-    ?>
+        file_put_contents("JSON.json",json_encode($json_arr));   
+    }?>
 
 <!-- Go Home -->
     <div class="grid-x">
@@ -88,5 +84,6 @@
         </div>
         <div class="cell small-4"></div>
     </div>
+
 </body>
 </html>

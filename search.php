@@ -23,7 +23,7 @@
     </div>
 
     <?php clearstatcache(); ?>
-    <?php if(filesize("JSON.txt") > 0) : ?>
+    <?php if(filesize("JSON.json") > 0) : ?>
 
         <!-- Search Form -->
         <div class = "grid-x">
@@ -32,7 +32,7 @@
                 <form action="" method = "post">
                     <input type = "text" name = "first" placeholder = "First Name">
                     <input type = "text" name = "last" placeholder = "Last Name">
-                    <input type = "submit" class = "button radius">
+                    <input type = "submit" name = "search_submit" class = "button radius">
                 </form>
             </div>
             <div class = "cell small-4"></div>
@@ -45,15 +45,16 @@
         }
 
         // Convert JSON to associative-array
-        $json = file_get_contents("JSON.txt");
+        $json = file_get_contents("JSON.json");
         $json_arr = json_decode($json, true);
         ?>
 
         <!-- Check for matches in attributed-array -->
         <?php foreach($json_arr as $key => $item) : ?>
-            <? if ($item["first_name"] == $first && $item["last_name"] == $last) : ?>
+            <?php $match = $item["first_name"] == $first && $item["last_name"] == $last; ?>
+            <? if ($match) : ?>
 
-            <!-- If match show details -->
+            <!-- Show details -->
                 <div class = "grid-x">
                     <div class = "cell small-2"></div>
                     <div class = "cell small-8 text-center">
@@ -92,7 +93,16 @@
                     </div>
                     <div class = "cell small-4"></div>
                 </div>
-
+                
+            <!-- Otherwise, show error message -->
+            <?php elseif( $_POST["search_submit"] && !$match && ($key == count($json_arr) -1) ) : ?>
+                <div class = "grid-x">
+                    <div class = "cell small-4"></div>
+                    <div class = "cell small-4 text-center">
+                        <h5>No such entry exists.</h5>
+                    </div>
+                    <div class = "cell small-4"></div>
+                </div>
             <?php endif; ?>
         <?php endforeach; ?>
     <?php else : ?>
@@ -114,5 +124,6 @@
         </div>
         <div class="cell small-4"></div>
     </div>
+    
 </body>
 </html>

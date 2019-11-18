@@ -24,7 +24,7 @@
     </div>
 
     <?php clearstatcache() ?>
-    <?php if(filesize("JSON.txt") > 0) : ?>
+    <?php if(filesize("JSON.json") > 0) : ?>
 
         <!-- Search Form -->
         <div class = "grid-x">
@@ -33,7 +33,7 @@
                 <form action="" method = "post">
                     <input type = "text" name = "first" placeholder = "First Name">
                     <input type = "text" name = "last" placeholder = "Last Name">
-                    <br><input type = "submit" class = "button radius">
+                    <br><input type = "submit" name = "del_submit" class = "button radius">
                 </form>
             </div>
             <div class = "cell small-4"></div>
@@ -46,31 +46,36 @@
             $last = $_POST["last"];
         }
 
-        $json = file_get_contents("JSON.txt");
-        $json_arr = json_decode($json, true);
+        $json_arr = json_decode(file_get_contents("JSON.json"), true);
         ?>
 
         <!-- Check for matches in JSON -->
-        <?php $match = false; ?>
-        <?php foreach($json_arr as $item => $value) : ?>
-            <? if ($value["first_name"] == $first && $value["last_name"] == $last) : ?>
-                
-                <!-- Found match -->
-                <?php $match = true; ?>
+        <?php foreach($json_arr as $key => $value) : ?>
+            <?php $match = $value["first_name"] == $first && $value["last_name"] == $last; ?>
+            <? if ($match) : ?>
 
                 <!-- Delete -->
                 <?php 
-                unset($json_arr[$item]);
+                unset($json_arr[$key]);
                 $json_reindex_arr = array_values($json_arr);
                 $modified_json = json_encode($json_reindex_arr);
-                file_put_contents("JSON.txt", $modified_json);
+                file_put_contents("JSON.json", $modified_json);
                 ?>
 
                 <!-- Clean up nesting '[]' if the last entry was just removed -->
-                <?php if(file_get_contents("JSON.txt") == "[]") {
-                    file_put_contents("JSON.txt", "");
+                <?php if(file_get_contents("JSON.json") == "[]") {
+                    file_put_contents("JSON.json", "");
                 }?>
-
+                
+            <!-- Otherwise, show error message -->
+            <?php elseif( $_POST["del_submit"] && !$match && ($key == count($json_arr) -1) ) : ?>
+                <div class = "grid-x">
+                    <div class = "cell small-4"></div>
+                    <div class = "cell small-4 text-center">
+                        <h5>No such entry exists.</h5>
+                    </div>
+                    <div class = "cell small-4"></div>
+                </div>
             <?php endif; ?>
         <?php endforeach; ?>
     <?php else: ?>

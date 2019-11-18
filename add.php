@@ -55,23 +55,52 @@
         $new_entry = new Entry($first, $last, $phone, $email);
         $new_json = json_encode($new_entry);
 
-        // Check if already in database:
-        $json_arr = json_decode(file_get_contents("JSON.txt"), true); ?>
+        // Get database:
+        $json_arr = json_decode(file_get_contents("JSON.json"), true); ?>
         
         <?php clearstatcache() ?>
-        <?php if(filesize("JSON.txt") > 0) : ?>
+        <?php if(filesize("JSON.json") > 0) : ?>
             <?php foreach($json_arr as $item) :
-                if($item["last_name"] == $new_entry->last_name && $item["phone"] == $new_entry->phone
-                    && $item["email"] == $new_entry->email) : ?>
+
+            // Duplicate conditions as (bool, error text):
+
+                // Allow same last name if email and phone are different e.g relations or work phone, email.
+                // Never allow same email or phone as existing.
+
+                $allbutfirst_same = $item["last_name"] == $new_entry->last_name && $item["phone"] == $new_entry->phone
+                            && $item["email"] == $new_entry->email;
+                $email_same = $item["email"] == $new_entry->email;
+                $phone_same = $item["phone"] == $new_entry->phone;
+
+                if($allbutfirst_same || $email_same || $phone_same) : ?>
 
                     <!-- If duplicate, print error, provide home button and exit() -->
-                    <div class="grid-x">
-                        <div class="cell small-4"></div>
-                        <div class="cell small-4 text-center">
-                            <h5>Entry already exists.</h5>
+                    <?php if($allbutfirst_same) : ?>
+                        <div class="grid-x">
+                            <div class="cell small-4"></div>
+                            <div class="cell small-4 text-center">
+                                <h5>Entry already exists.</h5>
+                            </div>
+                            <div class="cell small-4"></div>
                         </div>
-                        <div class="cell small-4"></div>
-                    </div>
+                    <?php elseif($email_same) : ?>
+                        <div class="grid-x">
+                            <div class="cell small-4"></div>
+                            <div class="cell small-4 text-center">
+                                <h5>Email already exists.</h5>
+                            </div>
+                            <div class="cell small-4"></div>
+                        </div>
+                    <?php elseif($phone_same) : ?>
+                        <div class="grid-x">
+                            <div class="cell small-4"></div>
+                            <div class="cell small-4 text-center">
+                                <h5>Phone already exists.</h5>
+                            </div>
+                            <div class="cell small-4"></div>
+                        </div>
+                    <?php endif; ?>
+                    
                     <div class="grid-x">
                         <div class="cell small-4"></div>
                         <div class="cell small-4 text-center">
@@ -81,22 +110,24 @@
                         <div class="cell small-4"></div>
                     </div>
                     <?php exit();
+
                 endif;
             endforeach;
         endif;
 
         // If the first object, add '[..]' to prepare for nesting:
         clearstatcache();
-        if(filesize("JSON.txt") == 0) :
-            file_put_contents("JSON.txt", "[".$new_json."]");
+        if(filesize("JSON.json") == 0) :
+            file_put_contents("JSON.json", "[".$new_json."]");
 
         // Else trim the '..]' and append ''new_json']':
         else :
-            $json = file_get_contents("JSON.txt");
-            file_put_contents("JSON.txt", rtrim($json, "]"));
-            file_put_contents("JSON.txt", ",\n".$new_json."]", FILE_APPEND);
+            $json = file_get_contents("JSON.json");
+            file_put_contents("JSON.json", rtrim($json, "]"));
+            file_put_contents("JSON.json", ",\n".$new_json."]", FILE_APPEND);
         endif;
 
+    // Allow no entry of some fields on purpose to allow editing later.
     endif; ?>
 
 <!-- Go Home -->

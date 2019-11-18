@@ -20,11 +20,11 @@
 
     <!-- Show book in table -->
     <?php clearstatcache(); ?>
-    <?php if(filesize("JSON.txt") > 0) : ?>
+    <?php if(filesize("JSON.json") > 0) : ?>
 
         <!-- Get book as array of objects -->
-        <?php $book = json_decode(file_get_contents("JSON.txt"));?>
-        
+        <?php $book = json_decode(file_get_contents("JSON.json"));?>
+
         <!-- Show in table -->
         <div class = "grid-x">
             <div class = "cell small-2"></div>
@@ -50,6 +50,7 @@
             </div>
             <div class = "cell small-2"></div>
         </div>
+        
     <!-- Or show empty -->
     <?php else : ?>
         <div class = "grid-x">
@@ -61,8 +62,6 @@
         </div>
     <?php endif; ?>
         
-    
-
 <!-- Go Home -->
     <div class="grid-x">
         <div class="cell small-4"></div>
@@ -72,5 +71,6 @@
         </div>
         <div class="cell small-4"></div>
     </div>
+
 </body>
 </html>
