@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="foundation-6/css/foundation.css">
-    <link rel="stylesheet" href="foundation-6/css/app.css">
+    <link rel="stylesheet" href="foundation.css">
+    <link rel="stylesheet" href="app.css">
     <link rel="stylesheet" href="custom.css">
     <title>Address Book | Edit</title>
 </head>
