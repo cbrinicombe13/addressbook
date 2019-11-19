@@ -18,38 +18,22 @@
         <div class = "cell small-4"></div>
     </div>
 
-    <!-- Show book in table -->
     <?php clearstatcache(); ?>
     <?php if(filesize("JSON.json") > 0) : ?>
 
-        <!-- Get book as array of objects -->
-        <?php $book = json_decode(file_get_contents("JSON.json"));?>
-
-        <!-- Show in table -->
+        <!-- Show in table (AJAX) -->
         <div class = "grid-x">
             <div class = "cell small-2"></div>
             <div class = "cell small-8 text-center">
                 <table>
-                    <tr style = "text_align: center">
-                        <th width = 150>First Name</th>
-                        <th width = 150>Last Name</th>
-                        <th width = 100>Phone</th>
-                        <th width = 400>E-Mail</th>
-                    </tr>
-                    <tbody>
-                        <?php foreach ($book as $entry) : ?>
-                        <tr style = "text_align: center">
-                            <td> <?php echo $entry->first_name; ?> </td>
-                            <td> <?php echo $entry->last_name; ?> </td>
-                            <td> <?php echo $entry->phone; ?> </td>
-                            <td> <?php echo $entry->email; ?> </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
+                    <tr style = "text_align: center", id = "js_header"></tr>
+                    <tbody id = "js_get"></tbody>
                 </table>
-            </div>
+            </div>  
             <div class = "cell small-2"></div>
         </div>
+
+        <div class = "grid-x" id = "js_emptyError"></div>
 
     <!-- Or show empty -->
     <?php else : ?>
@@ -61,7 +45,7 @@
             <div class = "cell small-4"></div>
         </div>
     <?php endif; ?>
-        
+
 <!-- Go Home -->
     <div class="grid-x">
         <div class="cell small-4"></div>
@@ -72,5 +56,10 @@
         <div class="cell small-4"></div>
     </div>
 
+    <script src = "view.js"></script>
+    <script src="jquery.js"></script>
+    <script src="what-input.js"></script>
+    <script src="foundation.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
