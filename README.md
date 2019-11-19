@@ -1,9 +1,12 @@
 # addressbook
 
 A web application for storing information on clients/customers.
-Can add, search, view, delete and edit records. Basic functions of app complete. Added Foundation 6. Added custom.css for button radius.
+
+Can add, search, view, delete and edit records. Basic functions of app complete. Added Foundation 6. Added custom.css for button radius and hiding. Added AJAX to view.php to help with scaling when data is large.
+
 Uses 'JSON.json' as a database file.
 
+Files:
 
 entry.php provides a class to group details into objects which can easily be converted to JSON or written out. The constructor takes in all four of first name, last name, phone and email but can be left NULL.
 
@@ -13,8 +16,10 @@ search.php allows you to search the JSON file by first and last name. If an entr
 
 delete.php allows you to delete entries from the JSON by first/last name. Will not delete anything if JSON is empty as no entries will be found. Handles issues with deleting last entry in JSON whereby the nesting acharcters '[]' are left in the file. Will tell the user if the entry they are trying to delete cannot be found.
 
-view.php allows you to view the entrie book in a table format by decoding the JSON.
+view.php allows you to view the entrie book using AJAX. This will help the app scale but now an issue could be latency. view.js provides the JS needed for the AJAX here.
 
 Founation 6 was used for a more responsive design.
 
-Now looking at AJAX and javascript to access the JSON. 
+TODO:
+
+Use AJAX for more common functions in the app.
