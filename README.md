@@ -20,6 +20,4 @@ view.php allows you to view the entrie book using AJAX. This will help the app s
 
 Founation 6 was used for a more responsive design.
 
-TODO:
-
-Use AJAX for more common functions in the app.
+Added alternative index and view scripts to show future work.
