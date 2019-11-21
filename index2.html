@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html class = "no-js" lang="en" dir = "ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="foundation-6.5.1-complete/css/foundation.css">
+    <link rel="stylesheet" href="custom.css">
+    <title>Address Book</title>
+</head>
+<body>
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+            <h1>Address Book</h1><hr>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+            <button class="button radius" data-open="add_modal">Add Contact</button>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <div class="reveal" id="add_modal" data-reveal>
+        <div class = "row text-center">
+            <h5>New Contact</h5><hr>
+        </div>
+        <form action = "" method = "post" class = "text-center">
+            <input type="text" name = "first" placeholder = "First Name">
+            <input type="text" name = "last" placeholder = "Last Name">
+            <input type="text" name = "phone" placeholder = "Phone">
+            <input type="email" name = "email" placeholder = "E-Mail">
+            <input type="submit" name = "add_submit" class = "button radius">
+        </form>
+        <button class="close-button" data-close type="button">
+            <span>&times;</span>
+        </button>
+     </div>
+
+     <div class="reveal" id="edit_modal" data-reveal>
+        <div class = "row text-center">
+            <h5>Edit Contact</h5><hr>
+        </div>
+        <form action="" method = "post" class = "text-center">
+            <input type="text" name = "new_first" placeholder = "New First Name">
+            <input type="text" name = "new_last" placeholder = "New Last Name">
+            <input type="text" name = "new_phone" placeholder = "New Phone">
+            <input type="email" name = "new_email" placeholder = "New E-Mail">
+            <input type="submit" id = "edit_submit" class = "button radius">
+        </form>
+        <button class="close-button" data-close type="button">
+            <div>&times;</div>
+        </button>
+        </div>
+
+    <!-- Show book in table (view2.js) -->
+    <div class = "grid-x">
+        <div class = "cell small-2"></div>
+        <div class = "cell small-8 text-center">
+            <table>
+                <tr id = "js_header"></tr>
+                <tbody id = "js_get"></tbody>
+            </table>
+        </div>  
+        <div class = "cell small-2"></div>
+    </div>
+
+    <script src="jquery.js"></script>
+    <script src="what-input.js"></script>
+    <script src="foundation.js"></script>
+    <script src="foundation.min.js"></script>
+    <script src = "view2.nv.js"></script>
+    <script></script>
+    <script>
+            $(document).foundation();
+    </script>
+</body>
+</html>
