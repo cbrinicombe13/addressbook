@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class = "no-js" lang="en" dir = "ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="foundation.css">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="custom.css">
+    <title>Address Book</title>
+</head>
+<body>
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+            <h1>Address Book</h1><hr>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <div class = "grid-x">
+        <div class = "cell small-4"></div>
+        <div class = "cell small-4 text-center">
+            <button class = "button radius">Add Contact</button>
+        </div>
+        <div class = "cell small-4"></div>
+    </div>
+
+    <!-- Show in table (AJAX) -->
+    <div class = "grid-x">
+        <div class = "cell small-2"></div>
+        <div class = "cell small-8 text-center">
+            <table>
+                <tr id = "js_header"></tr>
+                <tbody id = "js_get"></tbody>
+            </table>
+        </div>  
+        <div class = "cell small-2"></div>
+    </div>
+
+    <script src="view-draft.js"></script>
+    <script src="jquery.js"></script>
+    <script src="what-input.js"></script>
+    <script src="foundation.js"></script>
+</body>
+</html>
